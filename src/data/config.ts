@@ -7,8 +7,8 @@ import type { WeddingConfig } from './types.ts';
  *  The sample names below are placeholders — replace them.
  * ─────────────────────────────────────────────────────────────
  */
-const bride = { firstName: 'Aadrika', fullName: 'Aadrika Sharma' };
-const groom = { firstName: 'Daksh', fullName: 'Daksh Mehta' };
+const bride = { firstName: 'Aadrika', fullName: 'Aadrika Goswami' };
+const groom = { firstName: 'Daksh', fullName: 'Daksh Sharma' };
 
 export const wedding: WeddingConfig = {
   couple: {
@@ -18,8 +18,8 @@ export const wedding: WeddingConfig = {
     hashtag: '#AadrikaWedsDaksh',
   },
   families: {
-    bride: 'Sharma',
-    groom: 'Mehta',
+    bride: 'Goswami',
+    groom: 'Sharma',
     blessing: 'With the blessings of our elders and the love of our families',
   },
   invocation: {
