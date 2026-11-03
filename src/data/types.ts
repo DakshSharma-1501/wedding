@@ -3,7 +3,7 @@ export type SceneId =
   'ganesh' | 'shreenathji' | 'kali' | 'shivparvati' | 'couple' | 'itinerary' | 'rsvp';
 
 export interface PersonInfo {
-  /** Shown in large display type, e.g. "Aarohi". */
+  /** Shown in large display type, e.g. "Aadrika". */
   firstName: string;
   fullName: string;
   /** Optional line such as "Daughter of Smt. Meera & Shri Rakesh Sharma". */
@@ -29,7 +29,7 @@ export interface WeddingConfig {
     hashtag: string;
   };
   families: {
-    /** Family surnames, e.g. "Sharma" → "the Sharma & Mehta families". */
+    /** Family surnames, e.g. "Sharma" → "the Sharma & Goswami families". */
     bride: string;
     groom: string;
     blessing: string;

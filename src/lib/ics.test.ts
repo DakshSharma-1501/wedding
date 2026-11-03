@@ -22,7 +22,7 @@ const phere: WeddingEvent = {
 };
 
 const opts = {
-  coupleLabel: 'Aarohi & Vihaan',
+  coupleLabel: 'Aadrika & Daksh',
   location: 'Rajmahal Gardens, Udaipur',
   now: new Date('2026-11-03T10:00:00Z'),
 };
@@ -56,7 +56,7 @@ describe('buildIcs', () => {
     const ics = buildIcs(mehndi, opts).replace(/\r\n /g, '');
     expect(ics).toContain('LOCATION:Rajmahal Gardens\\, Udaipur\r\n');
     expect(ics).toContain('Shades of green\\; marigold\\, too');
-    expect(ics).toContain('SUMMARY:Mehndi — Aarohi & Vihaan\r\n');
+    expect(ics).toContain('SUMMARY:Mehndi — Aadrika & Daksh\r\n');
   });
 
   it('uses a stable, per-event UID', () => {

@@ -7,15 +7,15 @@ import type { WeddingConfig } from './types.ts';
  *  The sample names below are placeholders — replace them.
  * ─────────────────────────────────────────────────────────────
  */
-const bride = { firstName: 'Aarohi', fullName: 'Aarohi Sharma' };
-const groom = { firstName: 'Vihaan', fullName: 'Vihaan Mehta' };
+const bride = { firstName: 'Aadrika', fullName: 'Aadrika Sharma' };
+const groom = { firstName: 'Daksh', fullName: 'Daksh Mehta' };
 
 export const wedding: WeddingConfig = {
   couple: {
     bride,
     groom,
-    monogram: { bride: 'A', groom: 'V' },
-    hashtag: '#AarohiWedsVihaan',
+    monogram: { bride: 'A', groom: 'D' },
+    hashtag: '#AadrikaWedsDaksh',
   },
   families: {
     bride: 'Sharma',
@@ -57,7 +57,7 @@ export const wedding: WeddingConfig = {
     story: {
       heading: 'Our Story',
       paragraphs: [
-        'It began with a borrowed umbrella on a monsoon evening in Jaipur — and a conversation that simply never ended.',
+        'It began with a chilled on a winter evening in Udaipur — and a conversation that simply never ended.',
         'Seven years, two cities and countless cups of chai later, we are ready to begin our forever, surrounded by the people who made us who we are.',
       ],
     },
@@ -68,15 +68,16 @@ export const wedding: WeddingConfig = {
     timeZone: 'Asia/Kolkata',
   },
   venue: {
-    name: 'Rajmahal Gardens',
+    name: 'Parim Park',
     city: 'Udaipur',
-    addressLines: ['Lake Pichola Road', 'Udaipur, Rajasthan 313001'],
-    mapsQuery: 'Lake Pichola, Udaipur, Rajasthan',
+    addressLines: ['Sukher Bypass, 200 Feet Road', 'Udaipur, Rajasthan 313001'],
+    mapsQuery: 'Parim Park, Sukher Bypass, Udaipur, Rajasthan',
+    mapsUrl: 'https://maps.app.goo.gl/5FmotiAW5wp8ax4D9',
   },
   rsvp: {
-    whatsappNumber: '919999999999',
+    whatsappNumber: '917976078618',
     messageTemplate:
-      'Namaste! This is {name}. Thank you for the beautiful invitation — we would be delighted to join the wedding celebrations of Aarohi & Vihaan.',
+      'Namaste! This is {name}. Thank you for the beautiful invitation — we would be delighted to join the wedding celebrations of Aadrika & Daksh.',
     deadline: '31 December 2026',
   },
   audio: {

@@ -1,7 +1,7 @@
 import type { WeddingEvent } from '../data/types';
 
 export interface IcsOptions {
-  /** e.g. "Aarohi & Vihaan" — appended to each event title. */
+  /** e.g. "Aadrika & Daksh" — appended to each event title. */
   coupleLabel: string;
   location: string;
   /** Injected for deterministic tests. */

@@ -63,7 +63,7 @@ Requires Node 20+.
 **`src/data/events.ts`** holds the itinerary (typed): times in IST, the label guests see,
 a dress code, and optionally a different venue per event.
 
-> Aarohi & Vihaan, Rajmahal Gardens, the phone number and the story are **placeholders**.
+> Aadrika & Daksh, Rajmahal Gardens, the phone number and the story are **placeholders**.
 
 ---
 
