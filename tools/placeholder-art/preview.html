@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Deity preview</title>
+    <style>
+      body {
+        margin: 0;
+        background: #faf6ee;
+        display: flex;
+        gap: 24px;
+        padding: 24px;
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+      .fig {
+        position: relative;
+        width: 420px;
+        aspect-ratio: 600/720;
+        background: #f3ebdd;
+      }
+      .fig img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .sm {
+        width: 260px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="fig" id="a"></div>
+    <div class="fig sm" id="b" style="background: transparent"></div>
+    <script>
+      const qs = new URLSearchParams(location.search);
+      const deity = qs.get('d') || 'ganesh';
+      if (qs.get('bg')) document.getElementById('a').style.background = '#' + qs.get('bg');
+      if (qs.get('ar')) document.querySelectorAll('.fig').forEach((f) => (f.style.aspectRatio = qs.get('ar')));
+      const layers = (
+        new URLSearchParams(location.search).get('l') ||
+        'halo,body,ear-left,ear-right,head,eye-whites,irises,eyelids,eye-lines,trunk,crown,lotus'
+      ).split(',');
+      for (const id of ['a', 'b'])
+        for (const l of layers) {
+          const i = new Image();
+          i.src = `/src/assets/deities/${deity}/${l}.svg?t=${Date.now()}`;
+          document.getElementById(id).appendChild(i);
+        }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,204 @@
+<!doctype html>
+<!--
+  Share-image composer. With `npm run dev` running, open /tools/og/ and screenshot:
+    #og    → public/og-image.jpg        (1200×630, JPEG ≤ 300 KB for WhatsApp)
+    #icon  → public/apple-touch-icon.png (180×180)
+  Re-shoot after changing names/dates in src/data/config.ts.
+-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>OG composer</title>
+    <script type="module">
+      import '/src/styles/fonts.ts';
+      import { wedding } from '/src/data/config.ts';
+      const { couple, dates, venue, invocation } = wedding;
+      document
+        .querySelectorAll('[data-bride]')
+        .forEach((n) => (n.textContent = couple.bride.firstName));
+      document
+        .querySelectorAll('[data-groom]')
+        .forEach((n) => (n.textContent = couple.groom.firstName));
+      document
+        .querySelectorAll('[data-mb]')
+        .forEach((n) => (n.textContent = couple.monogram.bride));
+      document
+        .querySelectorAll('[data-mg]')
+        .forEach((n) => (n.textContent = couple.monogram.groom));
+      document.querySelector('[data-date]').textContent = dates.teaser;
+      document.querySelector('[data-venue]').textContent = `${venue.name}, ${venue.city}`;
+      document.querySelector('[data-invocation]').textContent = invocation.devanagari;
+      const layers = [
+        'halo',
+        'body',
+        'ear-left',
+        'ear-right',
+        'head',
+        'eye-whites',
+        'irises',
+        'eye-lines',
+        'trunk',
+        'crown',
+        'lotus',
+      ];
+      const fig = document.querySelector('.fig');
+      for (const l of layers) {
+        const img = new Image();
+        img.src = `/src/assets/deities/ganesh/${l}.svg`;
+        fig.appendChild(img);
+      }
+    </script>
+    <style>
+      body {
+        margin: 0;
+        background: #ddd;
+        font-family: Poppins, sans-serif;
+      }
+      #og {
+        width: 1200px;
+        height: 630px;
+        position: relative;
+        overflow: hidden;
+        background: radial-gradient(
+          ellipse 60% 80% at 30% 50%,
+          #fff6dc 0%,
+          #faf6ee 55%,
+          #f3ebdd 100%
+        );
+        display: flex;
+        align-items: center;
+      }
+      #og::before {
+        content: '';
+        position: absolute;
+        inset: 22px;
+        border: 1px solid rgb(201 162 39 / 0.55);
+      }
+      #og::after {
+        content: '';
+        position: absolute;
+        inset: 30px;
+        border: 1px solid rgb(201 162 39 / 0.25);
+      }
+      .art {
+        position: relative;
+        width: 430px;
+        height: 516px;
+        margin-left: 96px;
+      }
+      .glow {
+        position: absolute;
+        inset: -20% -20% 10%;
+        border-radius: 50%;
+        background: radial-gradient(closest-side, #fff8e0, rgb(246 226 168 / 0.7) 45%, transparent);
+      }
+      .fig {
+        position: absolute;
+        inset: 0;
+      }
+      .fig img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .copy {
+        flex: 1;
+        text-align: center;
+        padding-right: 70px;
+      }
+      .deva {
+        font-family: 'Tiro Devanagari Hindi', serif;
+        color: #8c6a12;
+        font-size: 28px;
+      }
+      .names {
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 500;
+        font-size: 104px;
+        line-height: 0.95;
+        margin: 22px 0 8px;
+        background: linear-gradient(
+          100deg,
+          #6b4e0c,
+          #9c7a16 40%,
+          #d4af4a 50%,
+          #9c7a16 60%,
+          #5e450b
+        );
+        -webkit-background-clip: text;
+        color: transparent;
+      }
+      .weds {
+        font-family: 'Cormorant Garamond', serif;
+        font-style: italic;
+        color: #0e7c7b;
+        font-size: 38px;
+      }
+      .date {
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 500;
+        color: #0b3c5d;
+        font-size: 40px;
+        margin-top: 26px;
+      }
+      .venue {
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        font-size: 15px;
+        color: rgb(30 27 22 / 0.7);
+        margin-top: 10px;
+      }
+      #icon {
+        width: 180px;
+        height: 180px;
+        margin-top: 20px;
+        display: grid;
+        place-items: center;
+        background: #faf6ee;
+      }
+      #icon .seal {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: radial-gradient(circle at 38% 32%, #f2d677, #d8b03e 35%, #a9821b 72%, #6e510d);
+        box-shadow:
+          inset 0 0 0 9px rgb(0 0 0 / 0.06),
+          inset 0 0 0 10px rgb(251 231 166 / 0.5);
+      }
+      #icon .mono {
+        font-family: 'Cormorant Garamond', serif;
+        font-style: italic;
+        font-weight: 500;
+        font-size: 64px;
+        color: #5e450b;
+      }
+      #icon .mono small {
+        font-size: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="og">
+      <div class="art">
+        <div class="glow"></div>
+        <div class="fig"></div>
+      </div>
+      <div class="copy">
+        <div class="deva" data-invocation></div>
+        <div class="names"><span data-bride></span></div>
+        <div class="weds">weds</div>
+        <div class="names"><span data-groom></span></div>
+        <div class="date" data-date></div>
+        <div class="venue" data-venue></div>
+      </div>
+    </div>
+    <div id="icon">
+      <div class="seal">
+        <div class="mono"><span data-mb></span><small>&amp;</small><span data-mg></span></div>
+      </div>
+    </div>
+  </body>
+</html>

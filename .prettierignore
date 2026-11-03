@@ -1,0 +1,12 @@
+dist
+node_modules
+lib
+scripts
+test
+.parallax
+src/assets/**/*.svg
+package-lock.json
+.playwright-mcp
+docs
+deno.json
+.mcp.json

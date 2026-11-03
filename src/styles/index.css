@@ -1,0 +1,481 @@
+@import 'tailwindcss';
+@import 'lenis/dist/lenis.css';
+
+/* ── Palette & type: peacock feather on cream ───────────────────────── */
+@theme {
+  --color-cream: #faf6ee;
+  --color-ivory: #f3ebdd;
+  --color-parchment: #ebe0cc;
+  --color-teal: #0e7c7b;
+  --color-peacock: #0b3c5d;
+  --color-peacock-deep: #072a42;
+  --color-emerald: #1b6b4a;
+  --color-gold: #c9a227;
+  /* Text-safe golds: deep passes WCAG AA on cream (4.6:1). */
+  --color-gold-deep: #8c6a12;
+  --color-gold-dark: #6b4e0c;
+  --color-champagne: #e8d5a3;
+  --color-ink: #1e1b16;
+  --color-marigold: #f29f05;
+  --color-vermilion: #b8342a;
+
+  --font-display: 'Cormorant Garamond', 'Cormorant', Georgia, 'Times New Roman', serif;
+  --font-body: 'Poppins', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-deva: 'Tiro Devanagari Hindi', 'Noto Serif Devanagari', 'Kohinoor Devanagari', serif;
+
+  --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  :root {
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+    color-scheme: light;
+  }
+
+  html {
+    background: var(--color-cream);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    /* No rubber-band flashes of a different colour on iOS / Android. */
+    overscroll-behavior: none;
+    /* clip (not hidden) so off-screen feathers never cause sideways scroll AND sticky still works. */
+    overflow-x: clip;
+  }
+
+  html.scroll-locked,
+  html.scroll-locked body {
+    overflow: hidden;
+  }
+
+  body {
+    min-height: 100svh;
+    background: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    overscroll-behavior-y: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: rgb(14 124 123 / 0.18);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-teal);
+    outline-offset: 3px;
+    border-radius: 8px;
+  }
+
+  img,
+  svg {
+    -webkit-user-drag: none;
+  }
+}
+
+/* ── Paper grain over everything (static, no blend modes → cheap on iOS) ── */
+.grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .27 0 0 0 0 .12 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Staggered mask reveal ─────────────────────────────────────────── */
+.reveal-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  /* Room for Devanagari matras and italic overhangs. */
+  padding: 0.16em 0.06em 0.2em;
+  margin: -0.16em -0.06em -0.2em;
+}
+.reveal-item {
+  display: inline-block;
+}
+
+/* ── Gold foil type ────────────────────────────────────────────────── */
+.foil {
+  background-image: linear-gradient(
+    100deg,
+    #6b4e0c 0%,
+    #8c6a12 22%,
+    #a8841c 38%,
+    #d9b54a 47%,
+    #a8841c 56%,
+    #8c6a12 72%,
+    #5e450b 100%
+  );
+  background-size: 250% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ── Gold shimmer micro-interaction for buttons ────────────────────── */
+/* In the components layer so positioning utilities (fixed/absolute) still win. */
+@layer components {
+  .gold-shimmer {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  /* Buttons: ≥44px tap targets, gold hairline, shimmer on hover/focus (no hover-only info). */
+  .btn {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    padding: 0.6rem 1.25rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition:
+      background-color 0.3s var(--ease-silk),
+      color 0.3s var(--ease-silk),
+      border-color 0.3s var(--ease-silk),
+      transform 0.3s var(--ease-silk);
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn-gold {
+    border: 1px solid var(--color-gold);
+    background: var(--color-cream);
+    color: var(--color-gold-dark);
+  }
+  .btn-gold:hover {
+    background: #fbf3dc;
+  }
+  .btn-solid {
+    border: 1px solid var(--color-peacock);
+    background: var(--color-peacock);
+    color: var(--color-cream);
+  }
+  .btn-solid:hover {
+    background: var(--color-peacock-deep);
+  }
+  .field {
+    min-height: 2.75rem;
+    width: 100%;
+    border-radius: 0.75rem;
+    border: 1px solid rgb(201 162 39 / 0.45);
+    background: rgb(255 255 255 / 0.7);
+    padding: 0.65rem 0.9rem;
+    font-size: 1rem; /* ≥16px so iOS Safari never zooms on focus */
+    color: var(--color-ink);
+    transition: border-color 0.2s;
+  }
+  .field:focus {
+    border-color: var(--color-teal);
+    outline: 2px solid rgb(14 124 123 / 0.25);
+    outline-offset: 1px;
+  }
+}
+.gold-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  background: linear-gradient(
+    110deg,
+    transparent 30%,
+    rgb(255 246 214 / 0.75) 48%,
+    transparent 66%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.9s var(--ease-silk);
+}
+.gold-shimmer:hover::after,
+.gold-shimmer:focus-visible::after {
+  transform: translateX(120%);
+}
+
+/* ── Diya flame ────────────────────────────────────────────────────── */
+@keyframes flame-flicker {
+  0%,
+  100% {
+    transform: scale(1, 1) skewX(0deg);
+  }
+  20% {
+    transform: scale(0.95, 1.07) skewX(2.5deg);
+  }
+  45% {
+    transform: scale(1.04, 0.94) skewX(-2deg);
+  }
+  70% {
+    transform: scale(0.97, 1.04) skewX(1.2deg);
+  }
+}
+@keyframes glow-flicker {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  30% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.72;
+  }
+}
+/* Flame + glow are HTML-level elements → keyframes run on the compositor. */
+.diya-flame {
+  transform-origin: 50% 92%;
+  animation: flame-flicker 1.9s ease-in-out infinite;
+}
+.diya-glow {
+  animation: glow-flicker 2.3s ease-in-out infinite;
+}
+
+/* ── Gentle sway for toran strands ─────────────────────────────────── */
+@keyframes strand-sway {
+  0%,
+  100% {
+    transform: rotate(-2.6deg);
+  }
+  50% {
+    transform: rotate(2.6deg);
+  }
+}
+/* Each strand is its own <svg>; transform-origin is set inline at the cord line. */
+.toran-strand {
+  animation: strand-sway 4.6s ease-in-out infinite;
+}
+
+/* ── Envelope seal hints ───────────────────────────────────────────── */
+@keyframes seal-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}
+@keyframes hint-breathe {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+/* ── Twinkling glints ──────────────────────────────────────────────── */
+@keyframes glint {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.3) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) rotate(45deg);
+  }
+}
+.glint {
+  animation: glint 3.2s ease-in-out infinite;
+}
+
+/* ── Idle life (compositor-driven) ─────────────────────────────────────
+   Infinite idle loops are CSS keyframes, not GSAP tweens: CSS transform/opacity
+   animations run on the compositor thread, so an idle scene costs the main thread
+   ~nothing. They only run inside [data-idle='on'] (set once a scene's entrance has
+   played) and freeze while the scene is off-screen ([data-idle='paused']). */
+@keyframes idle-float {
+  to {
+    transform: translateY(-9px);
+  }
+}
+@keyframes idle-ear-l {
+  to {
+    transform: scaleX(0.92) rotate(2.6deg);
+  }
+}
+@keyframes idle-ear-r {
+  to {
+    transform: scaleX(0.92) rotate(-2.6deg);
+  }
+}
+@keyframes idle-trunk {
+  from {
+    transform: rotate(-2.2deg);
+  }
+  to {
+    transform: rotate(2.2deg);
+  }
+}
+@keyframes idle-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes idle-sway {
+  from {
+    transform: rotate(-1.8deg);
+  }
+  to {
+    transform: rotate(1.8deg);
+  }
+}
+@keyframes idle-bob {
+  to {
+    transform: translateY(-5px);
+  }
+}
+@keyframes idle-smile {
+  to {
+    transform: scale(1.08, 0.95);
+  }
+}
+@keyframes idle-garland {
+  from {
+    transform: rotate(-0.9deg);
+  }
+  to {
+    transform: rotate(0.9deg);
+  }
+}
+@keyframes ripple {
+  from {
+    transform: scale(0.35);
+    opacity: 0.75;
+  }
+  to {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+@keyframes idle-hair-l {
+  from {
+    transform: rotate(-1.1deg) skewX(0.4deg);
+  }
+  to {
+    transform: rotate(1deg) skewX(-1.6deg);
+  }
+}
+@keyframes idle-hair-r {
+  from {
+    transform: rotate(1.1deg) skewX(-0.4deg);
+  }
+  to {
+    transform: rotate(-1deg) skewX(1.6deg);
+  }
+}
+@keyframes idle-breathe {
+  to {
+    transform: scale(1.018);
+  }
+}
+@keyframes rays-pulse {
+  from {
+    opacity: 0.55;
+    transform: scale(0.94) rotate(0deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.06) rotate(8deg);
+  }
+}
+@keyframes aura-breathe {
+  to {
+    transform: scale(1.07);
+    opacity: 1;
+  }
+}
+@keyframes aura-rays-fade {
+  to {
+    opacity: 0.55;
+  }
+}
+
+[data-idle='on'] .idle-float {
+  animation: idle-float 3.4s ease-in-out infinite alternate;
+}
+[data-idle='on'] .idle-ear-l {
+  animation: idle-ear-l 2.3s ease-in-out infinite alternate;
+}
+[data-idle='on'] .idle-ear-r {
+  animation: idle-ear-r 2.3s ease-in-out 0.4s infinite alternate;
+}
+[data-idle='on'] .idle-trunk {
+  animation: idle-trunk 3.8s ease-in-out infinite alternate;
+}
+[data-idle='on'] .idle-spin {
+  animation: idle-spin 150s linear infinite;
+}
+[data-idle='on'] .idle-sway {
+  animation: idle-sway 5.2s ease-in-out infinite alternate;
+}
+[data-idle='on'] .idle-bob {
+  animation: idle-bob 2.6s ease-in-out infinite alternate;
+}
+[data-idle='on'] .idle-float-slow {
+  animation: idle-float 5.2s ease-in-out infinite alternate;
+}
+[data-idle='on'] .idle-smile {
+  animation: idle-smile 2.9s ease-in-out infinite alternate;
+}
+[data-idle='on'] .idle-garland {
+  animation: idle-garland 4.4s ease-in-out infinite alternate;
+}
+[data-idle='on'] .idle-ripple {
+  animation: ripple 4.2s ease-out infinite;
+}
+[data-idle='on'] .idle-hair-l {
+  animation: idle-hair-l 4.8s ease-in-out infinite alternate;
+}
+[data-idle='on'] .idle-hair-r {
+  animation: idle-hair-r 5.3s ease-in-out 0.6s infinite alternate;
+}
+[data-idle='on'] .idle-breathe {
+  animation: idle-breathe 4.2s ease-in-out infinite alternate;
+}
+[data-idle='on'] .idle-rays {
+  animation: rays-pulse 2.6s ease-in-out infinite alternate;
+}
+[data-idle='on'] .aura-glow {
+  animation: aura-breathe 3.6s ease-in-out infinite alternate;
+}
+[data-idle='on'] .aura-rays {
+  animation:
+    idle-spin 160s linear infinite,
+    aura-rays-fade 4.4s ease-in-out infinite alternate;
+}
+/* Off-screen scenes freeze every CSS animation inside them (flames, strands, glints too). */
+[data-idle='paused'] *,
+[data-idle='paused'] *::before,
+[data-idle='paused'] *::after {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-idle] * {
+    animation: none !important;
+  }
+  .diya-flame,
+  .diya-glow,
+  .toran-strand,
+  .glint {
+    animation: none;
+  }
+  .glint {
+    opacity: 0.6;
+  }
+}
